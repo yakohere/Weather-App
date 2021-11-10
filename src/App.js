@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import styled from "styled-components"
+import { api } from "./axios";
+import { Routes, Route } from "react-router-dom"
+import WeatherDateList from "./WeatherDateList";
+import WeatherHourly from "./WeatherHourly";
+import { useDispatch } from "react-redux";
+import { fetchForecast } from "./store/globalSlice";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchForecast())
+    }, [dispatch])
+
+    return (
+        <Wrapper>
+            <Routes>
+                <Route path="/" element={<WeatherDateList />} />
+                <Route path="/:date" element={<WeatherHourly />} />
+            </Routes>
+        </Wrapper>
+    );
 }
 
 export default App;
+
+const Wrapper = styled.div`
+
+`;
